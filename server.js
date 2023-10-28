@@ -3,6 +3,7 @@ const next = require("next");
 const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
+const cors = require("cors"); // นำเข้า cors
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -10,6 +11,9 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = express();
+
+  // ใช้ cors middleware ก่อนการกำหนดเส้นทาง
+  server.use(cors());
 
   // ใช้ body-parser เพื่ออ่าน JSON จากคำขอ POST
   server.use(bodyParser.json());
@@ -42,8 +46,8 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  server.listen(3000, (err) => {
+  server.listen(3001, (err) => {
     if (err) throw err;
-    console.log(`> Server is ready on http://localhost:3000`);
+    console.log(`> Server is ready on http://localhost:3001`);
   });
 });

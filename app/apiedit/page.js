@@ -6,11 +6,15 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const Apiedit = () => {
   const [editUrl, setEditUrl] = useState("");
   const [url, setUrl] = useState("");
-
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const apiUrl = "http://localhost:3001/api/data";
   useEffect(() => {
     // โหลดข้อมูลจากไฟล์ JSON ในโฟลเดอร์ public
     fetch("/data.json")
@@ -26,30 +30,36 @@ const Apiedit = () => {
   }, []);
 
   const handleUrlChange = (event) => {
-    setEditUrl(event.target.value); // แก้ชื่อตัวแปรจาก setEditApiLink เป็น setEditUrl
+    setEditUrl(event.target.value);
   };
 
   const handleSaveClick = () => {
-    // บันทึกค่าที่แก้ไขลงในไฟล์ JSON
     const updatedData = { url: editUrl };
-    fetch("/api/data", { // เปลี่ยน URL จาก "/data.json" เป็น "/api/data"
+    fetch(apiUrl, { // ใช้ apiUrl ที่คุณกำหนด
       method: "POST",
       body: JSON.stringify(updatedData),
       headers: {
         "Content-Type": "application/json",
       },
     })
-    .then(() => {
-      setUrl(editUrl);
-      console.log("บันทึกข้อมูลสำเร็จ");
-    })
-    .catch((error) => {
-      console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล: ", error);
-    });
-    
+      .then(() => {
+        setUrl(editUrl);
+        console.log("บันทึกข้อมูลสำเร็จ");
+        openSnackbar("บันทึกข้อมูลสำเร็จ"); // แสดงแจ้งเตือน
+      })
+      .catch((error) => {
+        console.error("เกิดข้อผิดพลาดในการบันทึกข้อมูล: ", error);
+      });
   };
-  
-  
+
+  const openSnackbar = (message) => {
+    setMessage(message);
+    setOpen(true);
+  };
+
+  const closeSnackbar = () => {
+    setOpen(false);
+  };
 
   return (
     <Container maxWidth="md">
@@ -62,6 +72,7 @@ const Apiedit = () => {
       <Typography variant="body2" align="center">
         {url}
       </Typography>
+
       <div
         style={{
           display: "flex",
@@ -80,8 +91,8 @@ const Apiedit = () => {
           style={{
             border: "blue",
             borderRadius: "10px",
-            backgroundColor: "white", // กำหนดสีพื้นหลังเป็นขาว
-            color: "white", // กำหนดสีตัวอักษรเป็นขาว
+            backgroundColor: "white",
+            color: "white",
           }}
         />
 
@@ -89,6 +100,11 @@ const Apiedit = () => {
           บันทึก
         </Button>
       </div>
+      <Snackbar open={open} autoHideDuration={3000} onClose={closeSnackbar}>
+        <MuiAlert onClose={closeSnackbar} severity="success">
+          {message}
+        </MuiAlert>
+      </Snackbar>
     </Container>
   );
 };
