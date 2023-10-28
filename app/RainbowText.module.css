@@ -1,0 +1,27 @@
+.rainbowText {
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #4B0082, #9400D3);
+    background-size: 200% 100%; /* 200% ให้สีเริ่มต้นเหมือนกัน */
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: rainbow 10s linear infinite;
+  }
+  
+  @keyframes rainbow {
+    0% {
+      background-position: 100% 0; /* เริ่มที่ขอบขวา */
+    }
+    100% {
+      background-position: -100% 0; /* จบที่ขอบซ้าย */
+    }
+  }
+  
+  .rainbowText h1 {
+    display: inline;
+    font-size: 50px;
+    font-weight: bold;
+  }
+  
