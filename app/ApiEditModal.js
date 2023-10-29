@@ -9,7 +9,7 @@ const ApiEditModal = ({ open, onClose }) => {
 
 
   const handlePasswordSubmit = () => {
-    if (password === 'เอิทหล่อมาก') {
+    if (password === '123') {
       setMessage('รหัสผ่านถูกต้องจ้า');
       setMessageColor('green'); // เปลี่ยนสีของข้อความเป็นสีเขียว
       setTimeout(() => {

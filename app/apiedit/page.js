@@ -14,20 +14,20 @@ const Apiedit = () => {
   const [url, setUrl] = useState("");
   const [open, setOpen] = React.useState(false);
   const [message, setMessage] = React.useState("");
-  const apiUrl = "http://localhost:3001/api/data";
-  useEffect(() => {
-    // โหลดข้อมูลจากไฟล์ JSON ในโฟลเดอร์ public
-    fetch("/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        setUrl(data.url);
-        setEditUrl(data.url);
-        console.log(data.url);
-      })
-      .catch((error) => {
-        console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล: ", error);
-      });
-  }, []);
+  const apiUrl = "https://muddy-dog-bedclothes.cyclic.app/1";
+  
+useEffect(() => {
+  fetch(apiUrl) // แก้ URL ตรงนี้
+    .then((response) => response.json())
+    .then((data) => {
+      setUrl(data.url);
+      setEditUrl(data.url);
+      console.log(data.url);
+    })
+    .catch((error) => {
+      console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล: ", error);
+    });
+}, []);
 
   const handleUrlChange = (event) => {
     setEditUrl(event.target.value);
@@ -36,7 +36,7 @@ const Apiedit = () => {
   const handleSaveClick = () => {
     const updatedData = { url: editUrl };
     fetch(apiUrl, { // ใช้ apiUrl ที่คุณกำหนด
-      method: "POST",
+      method: "PUT",
       body: JSON.stringify(updatedData),
       headers: {
         "Content-Type": "application/json",

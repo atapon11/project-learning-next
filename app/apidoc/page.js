@@ -17,8 +17,10 @@ const ApiDoc = () => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    // โหลดข้อมูลจากไฟล์ JSON ในโฟลเดอร์ public
-    fetch("/data.json")
+    // ระบุ URL ของ API ที่คุณต้องการใช้
+    const apiUrl = 'https://muddy-dog-bedclothes.cyclic.app/1';
+  
+    fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
         setUrl(data.url);
@@ -29,6 +31,7 @@ const ApiDoc = () => {
         console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล: ", error);
       });
   }, []);
+  
 
   // ตรวจสอบค่า apiLink ในส่วนนี้
   console.log(url);
@@ -49,10 +52,7 @@ const ApiDoc = () => {
           <TableHead>
             <TableRow>
               <TableCell>API</TableCell>
-              <TableCell>Path</TableCell>
-              <TableCell>Method</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Go to Page</TableCell>
+              <TableCell>Go To API Document</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,15 +63,8 @@ const ApiDoc = () => {
               >
                 {url}
               </TableCell>
-
-              <TableCell>/apis/patients</TableCell>
-              <TableCell>Post</TableCell>
               <TableCell>
-                ดึงหน้าแบบฟอร์มมาเพื่อให้ผู้ใช้เพิ่มข้อมูลเข้าไป
-              </TableCell>
-
-              <TableCell>
-                <Link href="/apidoc/patients">
+                <Link href= {url}>
                   <Button
                     variant="contained"
                     color="warning"
@@ -81,7 +74,7 @@ const ApiDoc = () => {
                       color: "black",
                     }}
                   >
-                    Patients
+                    API Document
                   </Button>
                 </Link>
               </TableCell>
